@@ -6,7 +6,8 @@ import App from './App.jsx'
 
 import { BrowserRouter } from 'react-router-dom'
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+// Fallback for production if VITE_ variable is missing
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '519085063673-48kg4ck45d70n6mq6segeauostmrprph.apps.googleusercontent.com';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
