@@ -1,4 +1,4 @@
-import 'dotenv/config'; // Connected to Atlas?
+import 'dotenv/config'; // Port cleared?
 import express from 'express';
 import { createServer } from 'http';
 import { initSocket } from './socketService.js';
@@ -45,6 +45,17 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Ensure DB Connection (Required for Serverless/Vercel)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    logger.error('Database connection failed in middleware:', err);
+    res.status(500).json({ message: 'Internal Server Error (DB)' });
+  }
+});
+
 // Routes
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -68,13 +79,24 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'LocalDev Connect API is running.' });
 });
 
-// 404 Handler for undefined routes
-app.use((req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
-
 // Global Error Handling Middleware
 app.use(globalErrorHandler);
+
+// Serve Static Assets in Production
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_FRONTEND === 'true') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  if (fs.existsSync(frontendPath)) {
+    app.use(express.static(frontendPath));
+    app.get('*', (req, res) => {
+      if (!req.path.startsWith('/api')) {
+        res.sendFile(path.resolve(frontendPath, 'index.html'));
+      }
+    });
+    logger.info('🚀 Serving Frontend Production Build');
+  } else {
+    logger.warn('⚠️ Frontend dist folder not found. Run "npm run build" in frontend.');
+  }
+}
 
 const startServer = async () => {
   try {
@@ -111,5 +133,7 @@ const startServer = async () => {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   startServer();
 }
+
+export default app;
 
  
