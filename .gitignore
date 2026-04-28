@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Secrets (Ignore all .env files everywhere)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Database & Backups (CRITICAL: Ignore these to avoid large file errors)
+db_data/
+db_data_fresh/
+db_data_v2/
+backups/
+backups_filesystem/
+backups_old/
+**/db_data/
+**/db_data_fresh/
+**/db_data_v2/
+**/journal/
+**/backups/
+**/backups_filesystem/
+**/backups_old/
+**/*.log
+WiredTiger*
+WiredTiger.lock
+mongod.lock
+
+# Build outputs
+dist/
+frontend/dist/
+build/
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Project specific
+ai-service/venv/
+scratch/
+**/scratch/

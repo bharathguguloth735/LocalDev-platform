@@ -1,0 +1,14 @@
+{
+  "watch": ["."],
+  "ext": "js,mjs,cjs,json",
+  "ignore": [
+    "db_data/*",
+    "db_data_fresh/*",
+    "db_data_v2/*",
+    "logs/*",
+    "backups/*",
+    "scratch/*",
+    "db.json"
+  ],
+  "exec": "node index.js"
+}
