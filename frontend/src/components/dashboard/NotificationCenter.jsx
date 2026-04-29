@@ -97,7 +97,7 @@ const NotificationCenter = () => {
 
     switch (notif.type) {
       case 'message':
-        navigate(`/${role}-dashboard/messages?userId=${notif.sender?._id || notif.sender}`);
+        navigate(`/${role}-dashboard/messages`);
         break;
       case 'hire':
         navigate(role === 'student' ? '/student-dashboard/projects' : '/client-dashboard/projects');
