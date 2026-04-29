@@ -23,6 +23,9 @@ export default defineConfig({
       'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
       'Cross-Origin-Embedder-Policy': 'unsafe-none',
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 2000, // Increase limit to 2MB to suppress warnings for large AI/AWS SDKs
   }
 })
 
