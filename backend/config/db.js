@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 import logger from '../utils/logger.js';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-
 let mongod = null;
 
 const connectDB = async () => {
@@ -44,6 +42,7 @@ const connectDB = async () => {
         if (process.env.NODE_ENV !== 'production') {
           if (!mongod) {
             logger.info('🚀 Starting In-Memory MongoDB Fallback for development...');
+            const { MongoMemoryServer } = await import('mongodb-memory-server');
             mongod = await MongoMemoryServer.create();
             const uri = mongod.getUri();
             await mongoose.connect(uri);
