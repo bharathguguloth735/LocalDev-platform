@@ -33,6 +33,7 @@ import AppError from './utils/AppError.js';
 import logger from './utils/logger.js';
 
 const app = express();
+app.set('trust proxy', 1); // Trust Vercel's proxy for rate limiting
 export { app }; // Export for testing
 const httpServer = createServer(app);
 
