@@ -1,16 +1,18 @@
 import express from 'express';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import AWS from 'aws-sdk';
+import { S3Client } from "@aws-sdk/client-s3";
 import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Initialize AWS S3 Configuration
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'YOUR_AWS_ACCESS_KEY_ID_HERE',
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'YOUR_AWS_SECRET_ACCESS_KEY_HERE',
+// Initialize AWS S3 Client (v3)
+const s3 = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'YOUR_AWS_ACCESS_KEY_ID_HERE',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'YOUR_AWS_SECRET_ACCESS_KEY_HERE',
+  }
 });
 
 // Configure Multer to upload directly to S3

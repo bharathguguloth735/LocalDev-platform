@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import logger from './logger.js';
 
 /**
@@ -14,12 +14,14 @@ export const getSecret = async (secretName) => {
   }
 
   // If we are in production, fetch from AWS Secrets Manager
-  const client = new AWS.SecretsManager({
+  const client = new SecretsManagerClient({
     region: process.env.AWS_REGION || 'ap-south-1'
   });
 
   try {
-    const data = await client.getSecretValue({ SecretId: secretName }).promise();
+    const command = new GetSecretValueCommand({ SecretId: secretName });
+    const data = await client.send(command);
+    
     if ('SecretString' in data) {
       return JSON.parse(data.SecretString);
     }

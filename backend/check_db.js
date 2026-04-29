@@ -1,11 +1,19 @@
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import Notification from './models/Notification.js';
 
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/localbuisness';
+const MONGO_URI = process.env.MONGO_URI;
 
 async function check() {
+  if (!MONGO_URI) {
+    console.error('❌ Error: MONGO_URI is not defined in .env');
+    return;
+  }
+
   try {
-    await mongoose.connect(MONGO_URI);
+    console.log('⏳ Attempting to connect to MongoDB Atlas...');
+    await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 });
+    console.log('✅ Connected successfully to Atlas!');
     const count = await Notification.countDocuments();
     const latest = await Notification.find().sort({ createdAt: -1 }).limit(5);
     console.log('--- NOTIFICATION CHECK ---');

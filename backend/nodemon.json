@@ -10,5 +10,5 @@
     "scratch/*",
     "db.json"
   ],
-  "exec": "node index.js"
+  "exec": "node"
 }
