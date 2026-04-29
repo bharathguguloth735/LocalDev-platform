@@ -20,7 +20,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWS_S3_BUCKET || 'your-localdev-bucket-name',
-    acl: null,
+    acl: undefined,
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function (req, file, cb) {
       console.log('🚀 Triggering S3 Upload for:', file.originalname);
