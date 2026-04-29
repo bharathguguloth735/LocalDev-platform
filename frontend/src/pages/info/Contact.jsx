@@ -31,8 +31,8 @@ const Contact = () => {
                             </div>
                             <div>
                                 <h3 className="font-bold text-slate-900 mb-1">Call Us</h3>
-                                <p className="text-sm text-slate-500">+1 (555) 123-4567</p>
-                                <p className="text-sm text-slate-500">Mon-Fri, 9am - 5pm EST</p>
+                                <p className="text-sm text-slate-500">040-23456789</p>
+                                <p className="text-sm text-slate-500">Mon-Fri, 9am - 6pm IST</p>
                             </div>
                         </div>
 
