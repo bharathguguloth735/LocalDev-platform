@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "localdev-connect",
+  "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
