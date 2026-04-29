@@ -16,10 +16,22 @@ const connectDB = async () => {
       throw new Error('MONGO_URI is not defined in environment variables.');
     }
 
+    logger.info('📡 Attempting to connect to MongoDB Atlas...');
+    const uri = process.env.MONGO_URI;
+    
+    if (!uri) {
+      throw new Error('MONGO_URI is missing from environment variables!');
+    }
+
+    // Mask URI for logs (e.g. mongodb+srv://L...***@...)
+    const maskedUri = uri.replace(/:([^@]+)@/, ':***@');
+    logger.info(`🔗 Using URI: ${maskedUri}`);
+
     // Try to connect to the provided URI
     try {
-      const conn = await mongoose.connect(mongoUri, {
-        serverSelectionTimeoutMS: 5000,
+      const conn = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 5000, // Fail fast if IP is blocked
+        connectTimeoutMS: 10000,
       });
       logger.info(`[LocalDev Connect] Mission Database Connected: ${conn.connection.host}`);
     } catch (err) {
