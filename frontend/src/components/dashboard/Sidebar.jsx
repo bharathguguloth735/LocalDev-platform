@@ -109,12 +109,12 @@ const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
     {/* Mobile Overlay */}
     {isOpen && (
       <div 
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1100] md:hidden transition-all duration-500"
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] md:hidden transition-all duration-500"
         onClick={onClose}
       />
     )}
 
-    <aside className={`w-[280px] bg-white border-r border-slate-100 flex flex-col h-full fixed left-0 top-0 md:top-[74px] md:h-[calc(100vh-74px)] z-[1200] shadow-[10px_0_40px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-500
+    <aside className={`w-[280px] bg-white border-r border-slate-100 flex flex-col h-full fixed left-0 top-0 md:top-[74px] md:h-[calc(100vh-74px)] z-[50] shadow-[10px_0_40px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-500
       ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
       
       {/* Brand Section with Mobile Close */}

@@ -124,7 +124,7 @@ const StudentOverview = () => {
   };
 
   return (
-    <div className="p-10 pb-20 w-full min-h-screen bg-[#F1F5F9] relative overflow-hidden font-sans">
+    <div className="p-4 md:p-10 pb-20 w-full min-h-screen bg-[#F1F5F9] relative overflow-hidden font-sans">
       <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[120px] -z-0" />
       <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-0" />
 
@@ -134,7 +134,7 @@ const StudentOverview = () => {
              <div className="h-[2px] w-12 bg-indigo-600 rounded-full" />
              <span className="text-[11px] font-black uppercase text-indigo-600 tracking-[0.3em]">Status: Active</span>
            </div>
-           <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none">Student Terminal</h1>
+           <h1 className="text-3xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none">Student Terminal</h1>
            <p className="text-slate-400 text-xl font-medium mt-3">Welcome, <span className="text-slate-900 font-black">{firstName}</span>. Ready for your next mission?</p>
         </div>
       </div>
@@ -165,7 +165,7 @@ const StudentOverview = () => {
 
       <div className="grid lg:grid-cols-12 gap-10 px-6 relative z-10">
         <div className="lg:col-span-8 space-y-10">
-           <div className="flex items-center justify-between px-8 py-6 bg-white/40 border border-white rounded-[32px] backdrop-blur-md">
+           <div className="flex items-center justify-between px-6 md:px-8 py-4 md:py-6 bg-white/40 border border-white rounded-[24px] md:rounded-[32px] backdrop-blur-md">
               <div className="flex items-center gap-4">
                  <div className="w-1.5 h-10 bg-indigo-600 rounded-full" />
                  <h2 className="text-3xl font-black text-slate-900 tracking-tight uppercase">My Job Requests</h2>
@@ -335,7 +335,7 @@ const StudentOverview = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-6">
            <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-xl" onClick={() => setBriefingProject(null)} />
            
-           <div className="relative bg-white w-full max-w-4xl h-full md:h-auto md:max-h-[90vh] md:rounded-[50px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 flex flex-col md:flex-row">
+           <div className="relative bg-white w-full max-w-4xl h-full md:h-auto md:max-h-[95vh] md:rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-500 flex flex-col md:flex-row">
               {/* Left Side: Visual/Category - Hidden on mobile */}
               <div className="hidden md:flex w-full md:w-1/3 bg-slate-900 p-12 flex-col justify-between relative overflow-hidden shrink-0">
                  <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-full blur-[40px]" />
@@ -368,7 +368,7 @@ const StudentOverview = () => {
                           <span className="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[8px] font-black uppercase tracking-widest">₹{briefingProject.budget?.toLocaleString()}</span>
                        </div>
                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] block mb-2">Technical Briefing</span>
-                       <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none">{briefingProject.title}</h3>
+                       <h3 className="text-xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter leading-none">{briefingProject.title}</h3>
                     </div>
                     <button onClick={() => { setBriefingProject(null); setTermsAccepted(false); }} className="p-2 text-slate-300 hover:text-rose-500 transition-colors bg-slate-50 md:bg-transparent rounded-full"><Plus className="w-6 h-6 rotate-45" /></button>
                  </div>
