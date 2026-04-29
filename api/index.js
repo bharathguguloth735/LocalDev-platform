@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import connectDB from '../backend/config/db.js';
+import connectDB from './db.js';
 import logger from '../backend/utils/logger.js';
 import globalErrorHandler from '../backend/middleware/errorMiddleware.js';
 
@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
     await connectDB();
     next();
   } catch (err) {
-    logger.error('Database connection failed:', err);
+    console.error('Database connection failed:', err.message);
     res.status(500).json({ message: 'Internal Server Error (DB)' });
   }
 });
