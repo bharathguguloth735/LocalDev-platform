@@ -1,4 +1,4 @@
-// Vercel Serverless Function Bridge
+// Vercel Serverless Function Bridge - v1.0.1
 export default async (req, res) => {
   try {
     // 1. Ensure DB connection
