@@ -9,6 +9,7 @@ export const apiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 
 // Stricter limiter for AI estimation (prevents API cost spikes)
@@ -20,6 +21,7 @@ export const aiLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 
 // Stricter limiter for File Uploads
@@ -31,6 +33,7 @@ export const uploadLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
 });
 
 // Very strict for Auth (Login/Register) to prevent brute force
@@ -39,5 +42,6 @@ export const authLimiter = rateLimit({
   max: 15, // 15 attempts per 15 minutes
   message: {
     message: 'Too many login attempts. Please try again in 15 minutes.'
-  }
+  },
+  validate: { xForwardedForHeader: false },
 });
