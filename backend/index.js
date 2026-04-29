@@ -114,26 +114,28 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   startServer();
 }
 
-// Graceful Shutdown
-const shutdown = async (signal) => {
-  logger.info(`\nReceived ${signal}. Shutting down gracefully...`);
-  httpServer.close(() => {
-    logger.info('HTTP server closed.');
-    mongoose.connection.close(false, () => {
-      logger.info('MongoDB connection closed.');
-      process.exit(0);
+// Graceful Shutdown (Only in development/non-serverless)
+if (process.env.NODE_ENV !== 'production') {
+  const shutdown = async (signal) => {
+    logger.info(`\nReceived ${signal}. Shutting down gracefully...`);
+    httpServer.close(() => {
+      logger.info('HTTP server closed.');
+      mongoose.connection.close(false, () => {
+        logger.info('MongoDB connection closed.');
+        process.exit(0);
+      });
     });
-  });
 
-  // Force shutdown after 10s
-  setTimeout(() => {
-    logger.error('Could not close connections in time, forcefully shutting down');
-    process.exit(1);
-  }, 10000);
-};
+    // Force shutdown after 10s
+    setTimeout(() => {
+      logger.error('Could not close connections in time, forcefully shutting down');
+      process.exit(1);
+    }, 10000);
+  };
 
-process.on('SIGINT', () => shutdown('SIGINT'));
-process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+}
 
 export default app;
 
