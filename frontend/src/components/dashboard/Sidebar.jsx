@@ -27,6 +27,7 @@ const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
     { name: 'Overview', icon: <Home className="w-5 h-5" />, path: '/student-dashboard' },
     { name: 'My Projects', icon: <Briefcase className="w-5 h-5" />, path: '/student-dashboard/projects' },
     { name: 'Job Request', icon: <Compass className="w-5 h-5" />, path: '/student-dashboard/explore' },
+    { name: 'Messages', icon: <MessageSquare className="w-5 h-5" />, path: '/student-dashboard/messages' },
     { name: 'Profile', icon: <UserCircle className="w-5 h-5" />, path: '/student-dashboard/profile' },
     { name: 'Portfolio', icon: <Users className="w-5 h-5" />, path: '/student-dashboard/portfolio' },
     { name: 'Reviews', icon: <Star className="w-5 h-5" />, path: '/student-dashboard/reviews' },
