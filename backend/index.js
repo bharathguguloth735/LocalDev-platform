@@ -45,17 +45,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Ensure DB Connection (Required for Serverless/Vercel)
-app.use(async (req, res, next) => {
-  try {
-    await connectDB();
-    next();
-  } catch (err) {
-    logger.error('Database connection failed in middleware:', err);
-    res.status(500).json({ message: 'Internal Server Error (DB)' });
-  }
-});
-
 // Routes
 const isTest = process.env.NODE_ENV === 'test';
 
@@ -102,21 +91,12 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    let retries = 0;
-    const MAX_RETRIES = 5;
-
     httpServer.on('error', (e) => {
       if (e.code === 'EADDRINUSE') {
-        retries++;
-        if (retries >= MAX_RETRIES) {
-          logger.error(`Port ${PORT} still in use after ${MAX_RETRIES} attempts. Exiting so nodemon can restart...`);
-          process.exit(1);
-        }
-        logger.error(`Port ${PORT} is already in use. Retrying in 1s... (${retries}/${MAX_RETRIES})`);
-        setTimeout(() => {
-          httpServer.close();
-          httpServer.listen(PORT);
-        }, 1000);
+        logger.error(`Port ${PORT} is already in use. Please ensure no other process is using this port.`);
+        process.exit(1);
+      } else {
+        logger.error(`Server error: ${e.message}`);
       }
     });
 
@@ -133,6 +113,27 @@ const startServer = async () => {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   startServer();
 }
+
+// Graceful Shutdown
+const shutdown = async (signal) => {
+  logger.info(`\nReceived ${signal}. Shutting down gracefully...`);
+  httpServer.close(() => {
+    logger.info('HTTP server closed.');
+    mongoose.connection.close(false, () => {
+      logger.info('MongoDB connection closed.');
+      process.exit(0);
+    });
+  });
+
+  // Force shutdown after 10s
+  setTimeout(() => {
+    logger.error('Could not close connections in time, forcefully shutting down');
+    process.exit(1);
+  }, 10000);
+};
+
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));
 
 export default app;
 

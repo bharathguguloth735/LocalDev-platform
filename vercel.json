@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "localdev-connect",
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -7,7 +8,9 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/frontend/$1"
+      "destination": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }

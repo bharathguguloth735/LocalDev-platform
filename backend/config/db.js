@@ -5,11 +5,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 let mongod = null;
 
 const connectDB = async () => {
-  // If already connected to an in-memory db, don't reconnect
-  if (mongod || mongoose.connection.readyState === 1) {
-    if (mongoose.connection.host === '127.0.0.1') {
-      return; // Already using fallback
-    }
+  // If already connected, don't reconnect
+  if (mongoose.connection.readyState === 1) {
+    return;
   }
 
   try {
@@ -17,7 +15,7 @@ const connectDB = async () => {
     
     if (!mongoUri) {
       logger.error('CRITICAL ERROR: MONGO_URI is not defined in environment variables.');
-      process.exit(1);
+      throw new Error('MONGO_URI is not defined in environment variables.');
     }
 
     // Try to connect to the provided URI
@@ -61,10 +59,8 @@ const connectDB = async () => {
     }
   } catch (err) {
     logger.error(`Failed to connect to database: ${err.message}`);
-    process.exit(1);
+    throw err;
   }
 };
 
 export default connectDB;
-
-
