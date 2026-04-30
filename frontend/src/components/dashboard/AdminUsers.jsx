@@ -97,8 +97,8 @@ const AdminUsers = () => {
              <div className="h-[2px] w-12 bg-indigo-600 rounded-full" />
              <span className="text-[11px] font-black uppercase text-indigo-600 tracking-[0.4em]">Directory Services</span>
            </div>
-           <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none">Identity <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Protocol</span></h1>
-           <p className="text-slate-400 text-sm font-medium mt-4 uppercase tracking-widest">Managing <span className="text-slate-900 font-black">{users.length}</span> verified entities across sectors.</p>
+           <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-none">Identity <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Protocol</span></h1>
+           <p className="text-slate-400 text-[10px] md:text-xs font-black mt-4 uppercase tracking-widest leading-relaxed">Managing <span className="text-slate-900">{users.length}</span> verified entities across global sectors.</p>
         </div>
 
         <button className="bg-slate-900 text-white px-10 py-5 rounded-[22px] font-black uppercase tracking-widest text-[10px] shadow-xl hover:bg-indigo-600 transition-all flex items-center gap-3">
@@ -143,19 +143,19 @@ const AdminUsers = () => {
             <table className="w-full text-left">
                <thead className="bg-slate-50/50 border-b border-slate-50">
                   <tr>
-                     <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400 cursor-pointer group" onClick={() => requestSort('name')}>
+                     <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400 cursor-pointer group" onClick={() => requestSort('name')}>
                         <div className="flex items-center gap-2">
                            Entity Name <ArrowUpDown className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
                         </div>
                      </th>
-                     <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Communication Node</th>
-                     <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400 cursor-pointer group" onClick={() => requestSort('role')}>
+                     <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Communication Node</th>
+                     <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400 cursor-pointer group" onClick={() => requestSort('role')}>
                         <div className="flex items-center gap-2">
                            Classification <ArrowUpDown className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
                         </div>
                      </th>
-                     <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-400">Onboarding</th>
-                     <th className="p-8 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">Protocols</th>
+                     <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Onboarding</th>
+                     <th className="p-6 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">Protocols</th>
                   </tr>
                </thead>
                <tbody className="divide-y divide-slate-50">
@@ -168,7 +168,7 @@ const AdminUsers = () => {
                           exit={{ opacity: 0 }}
                           className="hover:bg-slate-50/50 transition-all group cursor-default"
                         >
-                           <td className="p-8">
+                           <td className="p-6">
                               <div className="flex items-center gap-4">
                                  <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
                                     <img 
@@ -183,24 +183,24 @@ const AdminUsers = () => {
                                  </div>
                               </div>
                            </td>
-                           <td className="p-8">
+                           <td className="p-6">
                               <div className="flex items-center gap-2 text-slate-600 font-medium text-sm">
                                  <Mail className="w-3.5 h-3.5 text-slate-300" />
                                  {user.email}
                               </div>
                            </td>
-                           <td className="p-8">
+                           <td className="p-6">
                               <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border flex items-center gap-2 w-fit ${roleStyles[user.role]}`}>
                                  {roleIcons[user.role]} {user.role}
                               </span>
                            </td>
-                           <td className="p-8">
+                           <td className="p-6">
                               <div className="flex items-center gap-2">
                                  <div className={`w-1.5 h-1.5 rounded-full ${user.onboarded ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
                                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{user.onboarded ? 'Synchronized' : 'In Progress'}</span>
                               </div>
                            </td>
-                           <td className="p-8 text-right">
+                           <td className="p-6 text-right">
                               <div className="flex justify-end gap-2">
                                  <button className="p-3 bg-slate-50 rounded-xl text-slate-400 hover:bg-slate-900 hover:text-white transition-all border-none outline-none cursor-pointer">
                                     <UserCheck className="w-4 h-4" />

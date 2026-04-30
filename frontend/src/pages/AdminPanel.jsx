@@ -7,9 +7,9 @@ import AdminSettings from '../components/dashboard/AdminSettings';
 
 const AdminPanel = () => {
   return (
-    <div className="flex min-h-screen bg-slate-50 w-full">
+    <div className="flex min-h-screen bg-slate-50 w-full overflow-x-hidden">
       <Sidebar role="admin" />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 md:ml-[280px] pt-4 md:pt-10 overflow-y-auto w-full transition-all duration-500">
         <Routes>
           <Route path="/" element={<AdminOverview />} />
           <Route path="/users" element={<AdminUsers />} />
