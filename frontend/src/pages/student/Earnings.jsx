@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DollarSign, TrendingUp, CreditCard, Loader2 } from 'lucide-react';
+import { DollarSign, TrendingUp, CreditCard, Loader2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../api';
 
@@ -141,6 +141,13 @@ const Earnings = () => {
                   <td className="p-6">
                     {payment.status === 'escrow' ? (
                       <span className="px-3 py-1.5 bg-amber-50 text-amber-600 border border-amber-100 rounded-full text-[9px] font-black uppercase tracking-widest">Pending Escrow</span>
+                    ) : payment.status === 'failed' ? (
+                      <span className="px-3 py-1.5 bg-rose-50 text-rose-600 border border-rose-100 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-1"><AlertCircle className="w-3 h-3"/> Failed</span>
+                    ) : payment.status === 'pending_repayment' ? (
+                      <div className="flex flex-col gap-2">
+                        <span className="px-3 py-1.5 bg-orange-50 text-orange-600 border border-orange-100 rounded-full text-[9px] font-black uppercase tracking-widest">Client Repayment Req.</span>
+                        <span className="text-[8px] text-slate-400 font-bold uppercase tracking-tighter">Awaiting Client Action</span>
+                      </div>
                     ) : (
                       <span className="px-3 py-1.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full text-[9px] font-black uppercase tracking-widest whitespace-nowrap">Status: Cleared</span>
                     )}

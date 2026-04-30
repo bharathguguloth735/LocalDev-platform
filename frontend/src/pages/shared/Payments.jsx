@@ -638,11 +638,26 @@ const Payments = () => {
                       <div className="flex flex-col items-center gap-2 whitespace-nowrap">
                         <div className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border
                           ${trx.status === 'escrow' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                            trx.status === 'failed' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                            trx.status === 'pending_repayment' ? 'bg-orange-50 text-orange-600 border-orange-100' :
                             trx.type === 'deposit' || trx.type === 'withdrawal' ? (isClient ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100') :
                               'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>
-                          {trx.status === 'escrow' ? <Clock className="w-3 h-3 animate-pulse" /> : <ShieldCheck className="w-3 h-3" />}
-                          {trx.status === 'escrow' ? "Pending" : "Cleared"}
+                          {trx.status === 'escrow' ? <Clock className="w-3 h-3 animate-pulse" /> : 
+                           trx.status === 'failed' ? <AlertCircle className="w-3 h-3" /> :
+                           trx.status === 'pending_repayment' ? <AlertCircle className="w-3 h-3 animate-pulse" /> :
+                           <ShieldCheck className="w-3 h-3" />}
+                          {trx.status === 'escrow' ? "Pending" : 
+                           trx.status === 'failed' ? "Failed" : 
+                           trx.status === 'pending_repayment' ? "Repayment Req." : "Cleared"}
                         </div>
+                        {trx.status === 'pending_repayment' && isClient && (
+                          <button 
+                            onClick={() => setShowDepositModal(true)}
+                            className="mt-2 text-[8px] font-black uppercase tracking-widest bg-rose-600 text-white px-3 py-1.5 rounded-xl hover:bg-slate-900 transition-all shadow-lg"
+                          >
+                            Pay Now
+                          </button>
+                        )}
                         {trx.status !== 'escrow' && (
                           <button 
                             onClick={() => { setSelectedTrx(trx); setShowReceiptModal(true); }}
@@ -710,11 +725,26 @@ const Payments = () => {
                       <div className="text-right">
                          <div className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border
                            ${trx.status === 'escrow' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                             trx.status === 'failed' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                             trx.status === 'pending_repayment' ? 'bg-orange-50 text-orange-600 border-orange-100' :
                              trx.type === 'deposit' || trx.type === 'withdrawal' ? (isClient ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100') :
                                'bg-emerald-50 text-emerald-600 border-emerald-100'}`}>
-                           {trx.status === 'escrow' ? <Clock className="w-2.5 h-2.5 animate-pulse" /> : <ShieldCheck className="w-2.5 h-2.5" />}
-                           {trx.status === 'escrow' ? "Pending" : "Cleared"}
+                           {trx.status === 'escrow' ? <Clock className="w-2.5 h-2.5 animate-pulse" /> : 
+                            trx.status === 'failed' ? <AlertCircle className="w-2.5 h-2.5" /> :
+                            trx.status === 'pending_repayment' ? <AlertCircle className="w-2.5 h-2.5 animate-pulse" /> :
+                            <ShieldCheck className="w-2.5 h-2.5" />}
+                           {trx.status === 'escrow' ? "Pending" : 
+                            trx.status === 'failed' ? "Failed" : 
+                            trx.status === 'pending_repayment' ? "Repay Req." : "Cleared"}
                          </div>
+                         {trx.status === 'pending_repayment' && isClient && (
+                           <button 
+                             onClick={() => setShowDepositModal(true)}
+                             className="mt-2 block w-full text-center text-[8px] font-black uppercase tracking-widest bg-rose-600 text-white px-3 py-1.5 rounded-xl hover:bg-slate-900 transition-all shadow-lg"
+                           >
+                             Pay Now
+                           </button>
+                         )}
                       </div>
                    </div>
 
