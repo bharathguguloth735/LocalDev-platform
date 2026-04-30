@@ -244,25 +244,39 @@ const AdminOverview = () => {
            </div>
 
            <div className="space-y-6">
-              {[
-                { actor: 'Sarah Chen', action: 'Identity Protocol Registered', time: '2m', color: 'bg-indigo-600', icon: <Users size={12}/> },
-                { actor: 'Nexus Corp', action: 'New Venture Initialized', time: '14m', color: 'bg-rose-600', icon: <Briefcase size={12}/> },
-                { actor: 'System Core', action: 'Payment Released: ₹12,000', time: '1h', color: 'bg-emerald-600', icon: <DollarSign size={12}/> },
-                { actor: 'LocalDev Bot', action: 'SmartMatch Engine Updated', time: '3h', color: 'bg-purple-600', icon: <Cpu size={12}/> },
-              ].map((ev, i) => (
-                <div key={i} className="flex items-center justify-between p-6 rounded-[28px] hover:bg-slate-50 transition-all group">
-                   <div className="flex items-center gap-6">
-                      <div className={`w-12 h-12 rounded-2xl ${ev.color} text-white flex items-center justify-center shadow-md`}>
-                         {ev.icon}
-                      </div>
-                      <div>
-                         <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">{ev.actor}</h4>
-                         <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">{ev.action}</p>
-                      </div>
-                   </div>
-                   <span className="text-[10px] font-black text-slate-300 uppercase">{ev.time} ago</span>
+              {stats?.activities?.length > 0 ? (
+                stats.activities.map((ev, i) => {
+                  const timeAgo = (date) => {
+                    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+                    if (seconds < 60) return `${seconds}s`;
+                    const minutes = Math.floor(seconds / 60);
+                    if (minutes < 60) return `${minutes}m`;
+                    const hours = Math.floor(minutes / 60);
+                    if (hours < 24) return `${hours}h`;
+                    return Math.floor(hours / 24) + 'd';
+                  };
+
+                  return (
+                    <div key={i} className="flex items-center justify-between p-6 rounded-[28px] hover:bg-slate-50 transition-all group">
+                       <div className="flex items-center gap-6">
+                          <div className={`w-12 h-12 rounded-2xl ${ev.type === 'user' ? 'bg-indigo-600' : 'bg-rose-600'} text-white flex items-center justify-center shadow-md`}>
+                             {ev.type === 'user' ? <Users size={12}/> : <Briefcase size={12}/>}
+                          </div>
+                          <div>
+                             <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight truncate max-w-[200px]">{ev.actor}</h4>
+                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">{ev.action}</p>
+                          </div>
+                       </div>
+                       <span className="text-[10px] font-black text-slate-300 uppercase shrink-0 ml-4">{timeAgo(ev.time)} ago</span>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="py-20 flex flex-col items-center opacity-30">
+                  <Activity className="w-12 h-12 text-slate-300 mb-4 animate-pulse" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Stream Initializing...</p>
                 </div>
-              ))}
+              )}
            </div>
         </div>
 

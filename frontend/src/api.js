@@ -406,7 +406,7 @@ export const api = {
   },
 
   getPlatformStats: async () => {
-    const res = await fetch(`${API_URL}/reports/platform-stats`, { headers: getHeaders() });
+    const res = await fetch(`${API_URL}/admin/stats`, { headers: getHeaders() });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   },

@@ -14,14 +14,24 @@ router.get('/stats', verifyToken, isAdmin, async (req, res) => {
     const clients = await User.countDocuments({ role: 'client' });
     const admins = await User.countDocuments({ role: 'admin' });
     
-    const totalProjects = await Project.countDocuments();
+    // Latest Activities for Protocol Stream
+    const latestUsers = await User.find().sort({ createdAt: -1 }).limit(5).select('name createdAt');
+    const latestProjects = await Project.find().populate('client', 'name').sort({ createdAt: -1 }).limit(5).select('title client createdAt');
     
-    // Online logic: No logoutTime and updated in the last 15 minutes
-    const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000);
-    const onlineUsersCount = await SessionLog.distinct('user', {
-      logoutTime: { $exists: false },
-      updatedAt: { $gte: fifteenMinsAgo }
-    });
+    const activities = [
+      ...latestUsers.map(u => ({
+        actor: u.name,
+        action: 'Identity Protocol Registered',
+        time: u.createdAt,
+        type: 'user'
+      })),
+      ...latestProjects.map(p => ({
+        actor: p.client?.name || 'Enterprise Entity',
+        action: `Venture Initialized: ${p.title}`,
+        time: p.createdAt,
+        type: 'project'
+      }))
+    ].sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 10);
 
     res.json({
       totalUsers,
@@ -30,7 +40,8 @@ router.get('/stats', verifyToken, isAdmin, async (req, res) => {
       admins,
       totalProjects,
       onlineUsers: onlineUsersCount.length,
-      offlineUsers: totalUsers - onlineUsersCount.length
+      offlineUsers: totalUsers - onlineUsersCount.length,
+      activities
     });
   } catch (error) {
     console.error('Admin Stats Error:', error);
