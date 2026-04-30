@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, LogOut, Activity, ArrowLeft, Sparkles } from 'lucide-react';
+import { Zap, LogOut, Activity, ArrowLeft, Sparkles, Menu } from 'lucide-react';
 import NotificationCenter from '../dashboard/NotificationCenter';
 import AiLogo from './AiLogo';
+import useUserStore from '../../store/useUserStore';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toggleSidebar } = useUserStore();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [userData, setUserData] = useState(() => {
@@ -16,6 +18,8 @@ const Navbar = () => {
       return u ? JSON.parse(u) : null;
     } catch { return null; }
   });
+
+  const isDashboard = location.pathname.includes('dashboard') || location.pathname.startsWith('/admin');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -64,11 +68,22 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 w-full z-[1050] transition-all duration-300 border-b
       ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg py-2 border-slate-100' : 'bg-white pt-1 pb-3 border-slate-50'}`}>
       
-      <div className="max-w-[1800px] mx-auto px-8 flex items-center justify-between">
+      <div className="max-w-[1800px] mx-auto px-4 md:px-8 flex items-center justify-between">
         
         {/* Left Side: Logo + Nav Links */}
-        <div className="flex items-center gap-12 flex-1">
-          <Link to={userData ? `/${userData.role}-dashboard` : "/"} className="flex items-center gap-4 group shrink-0">
+        <div className="flex items-center gap-4 md:gap-12 flex-1">
+          {/* Mobile Sidebar Toggle */}
+          {userData && isDashboard && (
+            <button 
+              onClick={toggleSidebar}
+              className="md:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-xl transition-colors"
+              aria-label="Toggle Menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          )}
+
+          <Link to={userData ? (userData.role === 'admin' ? '/admin' : `/${userData.role}-dashboard`) : "/"} className="flex items-center gap-4 group shrink-0">
              <div className="flex items-center">
                 <div className="w-10 h-10 bg-white rounded-[14px] shadow-sm border border-slate-100 flex items-center justify-center p-1.5 transition-transform group-hover:scale-105 relative">
                    <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
@@ -120,7 +135,7 @@ const Navbar = () => {
                className="flex items-center"
             >
               <Link 
-                to={`/${userData.role}-dashboard`}
+                to={userData.role === 'admin' ? '/admin' : `/${userData.role}-dashboard`}
                 className="relative group px-10 py-3.5 rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] active:scale-95 flex items-center"
               >
                 {/* Cinematic Background with Animated Border */}
@@ -139,7 +154,7 @@ const Navbar = () => {
                     transition={{ duration: 2, repeat: Infinity }}
                     className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_12px_#6366f1]" 
                   />
-                  {userData.role === 'student' ? 'Student Terminal' : 'Client Terminal'}
+                  {userData.role === 'admin' ? 'Admin Console' : (userData.role === 'student' ? 'Student Terminal' : 'Client Terminal')}
                 </span>
 
                 {/* Shimmer Effect */}

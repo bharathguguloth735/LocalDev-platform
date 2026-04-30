@@ -16,20 +16,10 @@ import Profile from './client/Profile';
 import Test from './client/Test';
 
 const ClientDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   return (
     <div className="flex min-h-screen bg-white w-full overflow-hidden">
-      <Sidebar role="client" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Sidebar role="client" />
       
-      {/* Mobile Toggle */}
-      <button 
-        onClick={() => setIsSidebarOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-[70] w-14 h-14 bg-rose-500 text-white rounded-2xl shadow-2xl flex items-center justify-center active:scale-90 transition-all border-none"
-      >
-        <LayoutDashboard className="w-6 h-6" />
-      </button>
-
       <main className="flex-1 overflow-y-auto md:pl-[280px] w-full">
         <Routes>
           <Route path="/" element={<ClientOverview />} />

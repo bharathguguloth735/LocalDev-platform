@@ -1,8 +1,16 @@
 import mongoose from 'mongoose';
 import logger from '../utils/logger.js';
+import dns from 'dns';
 let mongod = null;
 
 const connectDB = async () => {
+  // Try setting custom DNS servers to bypass ISP blocks on SRV records
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+  } catch (e) {
+    logger.warn('Failed to set custom DNS servers.');
+  }
+
   // If already connected, don't reconnect
   if (mongoose.connection.readyState === 1) {
     return;
@@ -35,7 +43,13 @@ const connectDB = async () => {
       });
       logger.info(`[LocalDev Connect] Mission Database Connected: ${conn.connection.host}`);
     } catch (err) {
-      if (err.name === 'MongooseServerSelectionError' || err.message.includes('whitelist')) {
+      const isConnectionIssue = 
+        err.name === 'MongooseServerSelectionError' || 
+        err.message.includes('whitelist') || 
+        err.message.includes('ECONNREFUSED') || 
+        err.message.includes('querySrv');
+
+      if (isConnectionIssue) {
         let currentIp = 'Unknown';
         try {
           const response = await fetch('https://api.ipify.org?format=json');
@@ -46,10 +60,9 @@ const connectDB = async () => {
         }
 
         logger.error('--- MONGODB CONNECTION FAILED ---');
-        logger.error('Reason: Could not connect to Atlas. This is likely an IP Whitelist issue.');
-        logger.error(`Your current IP: ${currentIp}`);
-        logger.error('Please add this IP to your Atlas Whitelist: https://cloud.mongodb.com/');
-        logger.error('Path: Network Access -> + Add IP Address');
+        logger.error(`Reason: ${err.message}`);
+        logger.error(`Current IP: ${currentIp}`);
+        logger.error('Suggestion: Add this IP to Atlas Whitelist OR check if your cluster is paused.');
         
         if (process.env.NODE_ENV !== 'production') {
           if (!mongod) {
@@ -59,7 +72,6 @@ const connectDB = async () => {
             const uri = mongod.getUri();
             await mongoose.connect(uri);
             logger.info('✅ [LocalDev Connect] Fallback: Connected to In-Memory Database');
-            logger.info('⚠️  Note: Data will NOT be persisted across server restarts in this mode.');
           } else {
             logger.info('[LocalDev Connect] Fallback: Already connected to In-Memory Database');
           }

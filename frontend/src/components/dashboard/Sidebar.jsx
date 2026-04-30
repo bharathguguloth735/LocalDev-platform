@@ -7,10 +7,12 @@ import {
   Wallet, ShieldCheck, Sparkles, Activity, X 
 } from 'lucide-react';
 import { api } from '../../api';
+import useUserStore from '../../store/useUserStore';
 
 
-const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
+const Sidebar = ({ role = 'client' }) => {
   const location = useLocation();
+  const { isSidebarOpen, setSidebarOpen } = useUserStore();
   const path = location.pathname;
 
   const clientLinks = [
@@ -71,13 +73,14 @@ const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
     return () => window.removeEventListener('userUpdated', onUpdate);
   }, []);
 
-  // Sync on location change as fallback
+  // Sync on location change as fallback & Close sidebar on navigation
   useEffect(() => {
     try {
       const u = localStorage.getItem('user');
       setUserData(u ? JSON.parse(u) : null);
+      setSidebarOpen(false); // Close mobile sidebar on route change
     } catch {}
-  }, [location.pathname]);
+  }, [location.pathname, setSidebarOpen]);
 
   const userName = userData?.name || 'Guest';
   const getAvatar = (u) => {
@@ -108,15 +111,15 @@ const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
   return (
     <>
     {/* Mobile Overlay */}
-    {isOpen && (
+    {isSidebarOpen && (
       <div 
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] md:hidden transition-all duration-500"
-        onClick={onClose}
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1100] md:hidden transition-all duration-500"
+        onClick={() => setSidebarOpen(false)}
       />
     )}
 
-    <aside className={`w-[280px] bg-white border-r border-slate-100 flex flex-col h-full fixed left-0 top-0 md:top-[74px] md:h-[calc(100vh-74px)] z-[50] shadow-[10px_0_40px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-500
-      ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+    <aside className={`w-[280px] bg-white border-r border-slate-100 flex flex-col h-full fixed left-0 top-0 md:top-[74px] md:h-[calc(100vh-74px)] z-[1110] shadow-[10px_0_40px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-500
+      ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
       
       {/* Brand Section with Mobile Close */}
       <div className="p-6 pb-3 border-b border-slate-50 relative overflow-hidden group">
@@ -135,7 +138,7 @@ const Sidebar = ({ role = 'client', isOpen = false, onClose }) => {
               <span className="text-[8px] md:text-[9px] font-black text-slate-400 mt-0.5 uppercase tracking-[0.2em]">Platform</span>
             </div>
           </Link>
-          <button onClick={onClose} className="md:hidden p-2 bg-slate-50 rounded-xl text-slate-400">
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden p-2 bg-slate-50 rounded-xl text-slate-400">
             <X className="w-5 h-5" />
           </button>
         </div>

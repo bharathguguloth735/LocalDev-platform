@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env NODE_ENV=test vitest run"
+    "test": "cross-env NODE_ENV=test vitest run",
+    "db-check": "node scratch/get_user_count_v2.js"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +22,7 @@
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "exceljs": "^4.4.0",
+    "exceljs": "^3.4.0",
     "express": "^5.2.1",
     "express-rate-limit": "^8.4.0",
     "fs-extra": "^11.3.4",

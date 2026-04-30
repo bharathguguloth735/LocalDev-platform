@@ -1,6 +1,8 @@
 import express from 'express';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import SessionLog from '../models/SessionLog.js';
+import User from '../models/User.js';
+import Project from '../models/Project.js';
 import ExcelJS from 'exceljs';
 
 const router = express.Router();
@@ -51,6 +53,37 @@ router.get('/export-sessions', verifyToken, async (req, res) => {
   } catch (error) {
     console.error('Export Error:', error);
     res.status(500).json({ message: 'Failed to export sessions', error: error.message });
+  }
+});
+
+// GET /api/reports/platform-stats
+router.get('/platform-stats', verifyToken, async (req, res) => {
+  try {
+    // Basic check for admin role (can be moved to middleware)
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied: Admin role required.' });
+    }
+
+    const totalUsers = await User.countDocuments();
+    const students = await User.countDocuments({ role: 'student' });
+    const clients = await User.countDocuments({ role: 'client' });
+    const activeProjects = await Project.countDocuments({ status: 'active' });
+    const totalProjects = await Project.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalUsers,
+        students,
+        clients,
+        activeProjects,
+        totalProjects,
+        timestamp: new Date()
+      }
+    });
+  } catch (error) {
+    console.error('Stats Error:', error);
+    res.status(500).json({ message: 'Failed to retrieve stats', error: error.message });
   }
 });
 

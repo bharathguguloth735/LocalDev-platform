@@ -17,20 +17,10 @@ import ProjectTracker from './client/ProjectTracker';
 import MyProjects from './student/MyProjects';
 
 const StudentDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   return (
     <div className="flex min-h-screen bg-white w-full overflow-hidden">
-      <Sidebar role="student" isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Sidebar role="student" />
       
-      {/* Mobile Toggle */}
-      <button 
-        onClick={() => setIsSidebarOpen(true)}
-        className="md:hidden fixed bottom-6 right-6 z-[70] w-14 h-14 bg-indigo-600 text-white rounded-2xl shadow-2xl flex items-center justify-center active:scale-90 transition-all border-none"
-      >
-        <LayoutDashboard className="w-6 h-6" />
-      </button>
-
       <main className="flex-1 overflow-y-auto w-full md:pl-[280px] transition-all duration-300">
         <div className="max-w-[1600px] mx-auto p-4 md:p-8">
         <Routes>

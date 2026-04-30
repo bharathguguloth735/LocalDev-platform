@@ -176,6 +176,21 @@ export const api = {
     return res.json();
   },
 
+  getAllUsers: async () => {
+    const res = await fetch(`${API_URL}/users/all`, { headers: getHeaders() });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  deleteUser: async (id) => {
+    const res = await fetch(`${API_URL}/users/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
   updateProfile: async (id, profileData) => {
     const res = await fetch(`${API_URL}/users/${id}`, {
       method: 'PUT',
@@ -386,6 +401,12 @@ export const api = {
       method: 'POST',
       headers: getHeaders()
     });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  getPlatformStats: async () => {
+    const res = await fetch(`${API_URL}/reports/platform-stats`, { headers: getHeaders() });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   },

@@ -6,6 +6,7 @@ const useUserStore = create(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      isSidebarOpen: false, // UI state (usually not persisted, but we'll see)
       
       setUser: (userData) => {
         if (userData && userData._id && !userData.id) {
@@ -19,15 +20,23 @@ const useUserStore = create(
       
       logout: () => set({ 
         user: null, 
-        isAuthenticated: false 
+        isAuthenticated: false,
+        isSidebarOpen: false
       }),
+
+      setSidebarOpen: (isOpen) => set({ isSidebarOpen: isOpen }),
+      toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
 
       updateProfile: (updates) => set((state) => ({
         user: state.user ? { ...state.user, ...updates } : null
       })),
     }),
     {
-      name: 'localdev-user-storage', // persists to localStorage
+      name: 'localdev-user-storage',
+      partialize: (state) => ({ 
+        user: state.user, 
+        isAuthenticated: state.isAuthenticated 
+      }), // Only persist user and auth status
     }
   )
 );

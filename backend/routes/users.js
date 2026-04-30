@@ -113,4 +113,17 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 });
 
+// Get all users (Admin only)
+router.get('/all', verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied: Admin role required.' });
+    }
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching all users', error: error.message });
+  }
+});
+
 export default router;
