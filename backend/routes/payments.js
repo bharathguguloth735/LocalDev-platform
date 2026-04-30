@@ -210,7 +210,7 @@ router.get('/', verifyToken, async (req, res) => {
     const userId = req.user.id || req.user._id;
     const role = req.user.role;
 
-    const filter = role === 'client' ? { clientId: userId } : { studentId: userId };
+    const filter = role === 'admin' ? {} : (role === 'client' ? { clientId: userId } : { studentId: userId });
     const payments = await Payment.find(filter)
       .populate('projectId', 'title')
       .populate('clientId', 'name email')
@@ -303,6 +303,76 @@ router.post('/checkout', verifyToken, requireRole(['client', 'admin']), async (r
     res.status(500).json({ message: err.message });
   }
 });
+
+// ── MARK PAYMENT AS FAILED (ADMIN) ───────────────────────────────────────────
+router.post('/:paymentId/fail', verifyToken, requireRole(['admin']), async (req, res) => {
+  try {
+    const payment = await Payment.findById(req.params.paymentId);
+    if (!payment) return res.status(404).json({ message: 'Payment not found.' });
+
+    payment.status = 'failed';
+    await payment.save();
+
+    // Notify Client
+    if (payment.clientId) {
+      const notif = new Notification({
+        recipient: payment.clientId,
+        type: 'alert',
+        title: 'Transaction Failed',
+        message: `Your payment of ₹${payment.totalAmount} for transaction ${payment.transactionId} has failed. Please retry.`,
+        link: '/client-dashboard/payments'
+      });
+      await notif.save();
+      getIO().to(payment.clientId.toString()).emit('notification:new', notif);
+    }
+
+    res.status(200).json({ message: 'Payment marked as failed.', payment });
+  } catch (error) {
+    res.status(500).json({ message: 'Error marking payment as failed', error: error.message });
+  }
+});
+
+// ── REQUEST REPAYMENT (ADMIN) ────────────────────────────────────────────────
+router.post('/:paymentId/repay', verifyToken, requireRole(['admin']), async (req, res) => {
+  try {
+    const payment = await Payment.findById(req.params.paymentId).populate('projectId');
+    if (!payment) return res.status(404).json({ message: 'Payment not found.' });
+
+    payment.status = 'pending_repayment';
+    await payment.save();
+
+    // Notify Client to repay
+    if (payment.clientId) {
+      const notif = new Notification({
+        recipient: payment.clientId,
+        type: 'payment',
+        title: 'Repayment Required',
+        message: `A repayment of ₹${payment.totalAmount} is required for your project ${payment.projectId?.title || 'Venture'}.`,
+        link: '/client-dashboard/payments'
+      });
+      await notif.save();
+      getIO().to(payment.clientId.toString()).emit('notification:new', notif);
+    }
+    
+    // Notify Student
+    if (payment.studentId) {
+      const notif = new Notification({
+        recipient: payment.studentId,
+        type: 'alert',
+        title: 'Payment Delay Notice',
+        message: `There is a delay in the payment for ${payment.projectId?.title || 'Venture'}. We have requested a repayment from the client.`,
+        link: '/student-dashboard/earnings'
+      });
+      await notif.save();
+      getIO().to(payment.studentId.toString()).emit('notification:new', notif);
+    }
+
+    res.status(200).json({ message: 'Repayment requested from client.', payment });
+  } catch (error) {
+    res.status(500).json({ message: 'Error requesting repayment', error: error.message });
+  }
+});
+
 
 // ── RELEASE ESCROW ────────────────────────────────────────────────────────────
 router.post('/project/:projectId/release', verifyToken, requireRole(['client', 'admin']), async (req, res) => {

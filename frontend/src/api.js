@@ -238,6 +238,24 @@ export const api = {
     return res.json();
   },
 
+  markPaymentFailed: async (paymentId) => {
+    const res = await fetch(`${API_URL}/payments/${paymentId}/fail`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  requestRepayment: async (paymentId) => {
+    const res = await fetch(`${API_URL}/payments/${paymentId}/repay`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
   // Overridden: Manual direct deposit bypasses legacy gateway
   depositWallet: async (amount) => {
     const res = await fetch(`${API_URL}/payments/deposit`, {

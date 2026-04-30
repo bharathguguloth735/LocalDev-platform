@@ -4,6 +4,7 @@ import AdminOverview from '../components/dashboard/AdminOverview';
 import AdminUsers from '../components/dashboard/AdminUsers';
 import AdminProjects from '../components/dashboard/AdminProjects';
 import AdminCertificates from '../components/dashboard/AdminCertificates';
+import AdminPayments from '../components/dashboard/AdminPayments';
 import AdminSettings from '../components/dashboard/AdminSettings';
 
 const AdminPanel = () => {
@@ -16,6 +17,7 @@ const AdminPanel = () => {
           <Route path="/users" element={<AdminUsers />} />
           <Route path="/projects" element={<AdminProjects />} />
           <Route path="/certificates" element={<AdminCertificates />} />
+          <Route path="/payments" element={<AdminPayments />} />
           <Route path="/settings" element={<AdminSettings />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
