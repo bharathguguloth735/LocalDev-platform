@@ -70,7 +70,7 @@ const Sidebar = ({ role: propRole }) => {
     : '/client-dashboard/profile';
 
   const [dbStatus, setDbStatus] = useState('syncing');
-
+  const isSyncing = dbStatus === 'syncing';
   useEffect(() => {
     const checkPulse = async () => {
       try {
