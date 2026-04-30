@@ -94,7 +94,7 @@ const AdminProjects = () => {
                <div className="h-[2px] w-12 bg-rose-600 rounded-full" />
                <span className="text-[11px] font-black uppercase text-rose-600 tracking-[0.4em]">Venture Operations</span>
              </div>
-             <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-none">Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">Registry</span></h1>
+             <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase leading-tight">Project <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-pink-600">Registry</span></h1>
              <p className="text-slate-400 text-sm font-medium mt-4 uppercase tracking-widest">Tracking <span className="text-slate-900 font-black">{projects.length}</span> active cloud ventures in sector.</p>
           </div>
 

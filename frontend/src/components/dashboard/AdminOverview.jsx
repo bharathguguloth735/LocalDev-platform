@@ -73,7 +73,7 @@ const AdminOverview = () => {
              <div className="h-[2px] w-12 bg-purple-600 rounded-full" />
              <span className="text-[11px] font-black uppercase text-purple-600 tracking-[0.4em]">Control Sector: Alpha-Prime</span>
            </div>
-           <h1 className="text-4xl md:text-7xl font-black text-slate-900 tracking-tighter uppercase leading-none mb-4">
+           <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase leading-tight mb-2">
              Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">Console</span>
            </h1>
            <div className="flex items-center gap-4 text-slate-400">
