@@ -27,6 +27,13 @@ const AdminProjects = () => {
   // Deletion State
   const [deleteModal, setDeleteModal] = useState({ open: false, id: null, name: '' });
 
+  const statusStyles = {
+    pending: 'bg-slate-50 text-slate-500 border-slate-200',
+    in_progress: 'bg-indigo-50 text-indigo-600 border-indigo-200',
+    review: 'bg-amber-50 text-amber-600 border-amber-200',
+    completed: 'bg-emerald-50 text-emerald-600 border-emerald-200'
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
