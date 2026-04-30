@@ -82,12 +82,6 @@ const AdminProjects = () => {
     return matchesSearch && matchesTab;
   });
 
-  const statusStyles = {
-    pending: 'bg-slate-100 text-slate-500 border-slate-200',
-    in_progress: 'bg-blue-100 text-blue-600 border-blue-200',
-    review: 'bg-amber-100 text-amber-600 border-amber-200',
-    completed: 'bg-emerald-100 text-emerald-600 border-emerald-200'
-  };
 
   if (loading) {
     return (
