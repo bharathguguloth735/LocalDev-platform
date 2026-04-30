@@ -2,17 +2,23 @@ import express from 'express';
 import User from '../models/User.js';
 import Project from '../models/Project.js';
 import SessionLog from '../models/SessionLog.js';
-import { verifyToken, isAdmin } from '../middleware/authMiddleware.js';
+import { verifyToken, requireRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 // ── GET PLATFORM STATISTICS ─────────────────────────────────────────────
-router.get('/stats', verifyToken, isAdmin, async (req, res) => {
+router.get('/stats', verifyToken, requireRole(['admin']), async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
     const students = await User.countDocuments({ role: 'student' });
     const clients = await User.countDocuments({ role: 'client' });
     const admins = await User.countDocuments({ role: 'admin' });
+    const totalProjects = await Project.countDocuments();
+    
+    // Calculate Online Users (active in last 5 mins)
+    const onlineUsers = await SessionLog.distinct('user', {
+      lastActive: { $gte: new Date(Date.now() - 5 * 60000) }
+    });
     
     // Latest Activities for Protocol Stream
     const latestUsers = await User.find().sort({ createdAt: -1 }).limit(5).select('name createdAt');
@@ -39,8 +45,8 @@ router.get('/stats', verifyToken, isAdmin, async (req, res) => {
       clients,
       admins,
       totalProjects,
-      onlineUsers: onlineUsersCount.length,
-      offlineUsers: totalUsers - onlineUsersCount.length,
+      onlineUsers: onlineUsers.length,
+      offlineUsers: Math.max(0, totalUsers - onlineUsers.length),
       activities
     });
   } catch (error) {
