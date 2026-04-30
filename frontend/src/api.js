@@ -284,6 +284,22 @@ export const api = {
     if (!res.ok) throw new Error('Failed to fetch credentials');
     return res.json();
   },
+  
+  getPendingCertificates: async () => {
+    const res = await fetch(`${API_URL}/certificates/pending`, { headers: getHeaders() });
+    if (!res.ok) throw new Error('Failed to fetch pending credentials');
+    return res.json();
+  },
+
+  issueCertificate: async (projectId) => {
+    const res = await fetch(`${API_URL}/certificates/issue`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ projectId })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
 
   // ── Reviews ──────────────────────────────────────────────────────────────
   submitReview: async (reviewData) => {
