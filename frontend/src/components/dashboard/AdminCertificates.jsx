@@ -4,7 +4,7 @@ import {
   Award, Search, Filter, Trash2, 
   CheckCircle2, Clock, ShieldCheck, 
   ExternalLink, Download, Loader2,
-  Plus, Users, Briefcase
+  Plus, Users, Briefcase, AlertTriangle
 } from 'lucide-react';
 import { api } from '../../api';
 

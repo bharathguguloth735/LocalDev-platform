@@ -4,7 +4,7 @@ import {
   Users, Briefcase, DollarSign, Activity, AlertCircle, 
   Loader2, Shield, Zap, Globe, Cpu, TrendingUp, 
   Server, Lock, Search, Filter, ArrowUpRight,
-  GraduationCap, RefreshCcw
+  GraduationCap, RefreshCcw, LogOut
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../api';
