@@ -10,10 +10,14 @@ import { api } from '../../api';
 import useUserStore from '../../store/useUserStore';
 
 
-const Sidebar = ({ role = 'client' }) => {
+const Sidebar = ({ role: propRole }) => {
   const location = useLocation();
-  const { isSidebarOpen, setSidebarOpen } = useUserStore();
+  const navigate = useNavigate();
+  const { isSidebarOpen, setSidebarOpen, user: userData, isSyncing } = useUserStore();
   const path = location.pathname;
+
+  // Use the actual role from the live user object if available, otherwise fallback to prop
+  const role = userData?.role || propRole || 'client';
 
   const clientLinks = [
     { name: 'Overview', icon: <Home className="w-5 h-5" />, path: '/client-dashboard' },
@@ -50,36 +54,9 @@ const Sidebar = ({ role = 'client' }) => {
 
   const links = role === 'student' ? studentLinks : role === 'admin' ? adminLinks : clientLinks;
 
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState(() => {
-    try {
-      const u = localStorage.getItem('user');
-      return u ? JSON.parse(u) : null;
-    } catch { return null; }
-  });
-
-  const [isSyncing, setIsSyncing] = useState(false);
+  // Close sidebar on navigation
   useEffect(() => {
-    const onUpdate = (e) => {
-      setIsSyncing(true);
-      // Directly use detail if available, otherwise read from storage
-      const updatedUser = e.detail || JSON.parse(localStorage.getItem('user') || 'null');
-      if (updatedUser) {
-        setUserData(updatedUser);
-      }
-      setTimeout(() => setIsSyncing(false), 1200);
-    };
-    window.addEventListener('userUpdated', onUpdate);
-    return () => window.removeEventListener('userUpdated', onUpdate);
-  }, []);
-
-  // Sync on location change as fallback & Close sidebar on navigation
-  useEffect(() => {
-    try {
-      const u = localStorage.getItem('user');
-      setUserData(u ? JSON.parse(u) : null);
-      setSidebarOpen(false); // Close mobile sidebar on route change
-    } catch {}
+    setSidebarOpen(false); 
   }, [location.pathname, setSidebarOpen]);
 
   const userName = userData?.name || 'Guest';

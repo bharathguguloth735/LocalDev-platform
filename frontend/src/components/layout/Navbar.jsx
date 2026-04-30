@@ -9,15 +9,8 @@ import useUserStore from '../../store/useUserStore';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { toggleSidebar } = useUserStore();
+  const { toggleSidebar, user: userData } = useUserStore();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [userData, setUserData] = useState(() => {
-    try {
-      const u = localStorage.getItem('user');
-      return u ? JSON.parse(u) : null;
-    } catch { return null; }
-  });
 
   const isDashboard = location.pathname.includes('dashboard') || location.pathname.startsWith('/admin');
 
@@ -25,30 +18,13 @@ const Navbar = () => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     
-    const onUpdate = () => {
-      try {
-        const u = localStorage.getItem('user');
-        setUserData(u ? JSON.parse(u) : null);
-      } catch { setUserData(null); }
-    };
-    window.addEventListener('userUpdated', onUpdate);
-    
     // Force light mode
     document.documentElement.classList.remove('dark');
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('userUpdated', onUpdate);
     };
   }, []);
-
-  // Force sync on route change to prevent "transient" logged-out states on dashboard pages
-  useEffect(() => {
-    try {
-      const u = localStorage.getItem('user');
-      setUserData(u ? JSON.parse(u) : null);
-    } catch { setUserData(null); }
-  }, [location.pathname]);
 
   const handleLogout = () => {
     localStorage.clear();
