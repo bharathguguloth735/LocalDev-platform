@@ -9,7 +9,7 @@ import useUserStore from '../../store/useUserStore';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { toggleSidebar, user: userData } = useUserStore();
+  const { toggleSidebar, user: userData, logout, setUser } = useUserStore();
   const [isScrolled, setIsScrolled] = useState(false);
 
   const isDashboard = location.pathname.includes('dashboard') || location.pathname.startsWith('/admin');
@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    setUserData(null);
+    logout();
     navigate('/');
   };
 

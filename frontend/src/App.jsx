@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { api } from './api';
 import Navbar from './components/layout/Navbar';
 import LandingPage from './pages/LandingPage';
 import ClientDashboard from './pages/ClientDashboard';
