@@ -94,7 +94,18 @@ const AdminOverview = () => {
               <div className="w-px h-10 bg-slate-100" />
               <RefreshCcw className={`w-5 h-5 text-purple-600 ${loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform'}`} />
            </button>
-           <button className="bg-slate-900 text-white p-5 rounded-[28px] shadow-xl hover:bg-purple-600 transition-all group active:scale-95">
+           <button 
+             onClick={() => {
+                const el = document.documentElement;
+                if (el.classList.contains('dark')) {
+                   el.classList.remove('dark');
+                } else {
+                   el.classList.add('dark');
+                   alert('Neural Overdrive Protocol Initiated: Visual spectrum adjusted for low-light operations.');
+                }
+             }}
+             className="bg-slate-900 text-white p-5 rounded-[28px] shadow-xl hover:bg-purple-600 transition-all group active:scale-95"
+           >
               <Zap className="w-6 h-6 group-hover:animate-pulse" />
            </button>
         </div>
@@ -153,7 +164,7 @@ const AdminOverview = () => {
             </div>
             <div className="text-right">
                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Total Platform GTV</span>
-               <span className="text-4xl font-black text-slate-900">₹{(stats?.totalProjects * 15200 + 420000).toLocaleString()}<span className="text-sm text-slate-300 ml-2">.00</span></span>
+               <span className="text-4xl font-black text-slate-900">₹{((stats?.totalProjects || 0) * 15200 + 420000).toLocaleString()}<span className="text-sm text-slate-300 ml-2">.00</span></span>
             </div>
          </div>
          

@@ -73,12 +73,8 @@ const Sidebar = ({ role: propRole }) => {
   const isSyncing = dbStatus === 'syncing';
   useEffect(() => {
     const checkPulse = async () => {
-      try {
-        await api.checkHealth();
-        setDbStatus('online');
-      } catch (err) {
-        setDbStatus('offline');
-      }
+      const isOnline = await api.checkHealth();
+      setDbStatus(isOnline ? 'online' : 'offline');
     };
     checkPulse();
     const interval = setInterval(checkPulse, 60000); // Check once per minute

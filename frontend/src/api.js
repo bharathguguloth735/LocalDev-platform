@@ -493,8 +493,14 @@ export const api = {
   },
 
   checkHealth: async () => {
-    const res = await fetch(`${API_URL}/health`);
-    if (!res.ok) throw new Error('Health check failed');
-    return res.json();
+    try {
+      const res = await fetch(`${API_URL}/health`, { 
+        method: 'GET',
+        cache: 'no-store'
+      });
+      return res.ok;
+    } catch (e) {
+      return false;
+    }
   }
 };
