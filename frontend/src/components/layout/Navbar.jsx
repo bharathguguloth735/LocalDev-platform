@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, LogOut, Activity, ArrowLeft, Sparkles, Menu } from 'lucide-react';
+import { Zap, LogOut, Activity, ArrowLeft, Sparkles, Menu, ShieldCheck } from 'lucide-react';
 import NotificationCenter from '../dashboard/NotificationCenter';
 import AiLogo from './AiLogo';
 import useUserStore from '../../store/useUserStore';
