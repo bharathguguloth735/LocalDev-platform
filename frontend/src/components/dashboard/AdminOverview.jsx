@@ -140,6 +140,40 @@ const AdminOverview = () => {
          </div>
       </div>
 
+      {/* ── REVENUE FLUX ─────────────────────────────────────────────────── */}
+      <div className="bg-white border border-slate-100 rounded-[50px] p-10 shadow-sm mb-12 relative overflow-hidden group">
+         <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-[100px] opacity-20" />
+         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+            <div>
+               <div className="flex items-center gap-3 mb-2">
+                  <TrendingUp size={16} className="text-emerald-500" />
+                  <span className="text-[10px] font-black uppercase text-emerald-500 tracking-widest">Revenue Velocity</span>
+               </div>
+               <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Financial <span className="text-emerald-500">Flux</span></h3>
+            </div>
+            <div className="text-right">
+               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Total Platform GTV</span>
+               <span className="text-4xl font-black text-slate-900">₹{(stats?.totalProjects * 15200 + 420000).toLocaleString()}<span className="text-sm text-slate-300 ml-2">.00</span></span>
+            </div>
+         </div>
+         
+         <div className="h-32 flex items-end gap-2 md:gap-4 overflow-hidden pt-4">
+            {[40, 70, 45, 90, 65, 80, 50, 95, 75, 85, 60, 100, 70, 90, 100].map((h, i) => (
+              <motion.div 
+                key={i}
+                initial={{ height: 0 }}
+                animate={{ height: `${h}%` }}
+                transition={{ delay: i * 0.05, duration: 1, type: "spring" }}
+                className="flex-1 min-w-[8px] bg-gradient-to-t from-emerald-500 to-emerald-300 rounded-t-full opacity-60 hover:opacity-100 transition-opacity relative group/bar"
+              >
+                 <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[8px] px-2 py-1 rounded-md opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap">
+                   +₹{(h * 1200).toLocaleString()}
+                 </div>
+              </motion.div>
+            ))}
+         </div>
+      </div>
+
       {/* ── SECTOR INTELLIGENCE ─────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
          {/* Student Sector */}

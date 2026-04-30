@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../api';
 import ProjectModal from './ProjectModal';
+import TerminationModal from './TerminationModal';
 
 /**
  * ADMIN PROJECT REGISTRY (v5.0)
@@ -22,6 +23,9 @@ const AdminProjects = () => {
   const [newProject, setNewProject] = useState({ title: '', client: '', budget: '', status: 'Pending' });
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('all'); // all, in_progress, review, completed
+  
+  // Deletion State
+  const [deleteModal, setDeleteModal] = useState({ open: false, id: null, name: '' });
 
   useEffect(() => {
     fetchProjects();
@@ -49,14 +53,19 @@ const AdminProjects = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Terminate this venture protocol permanently?')) return;
+  const executeDelete = async () => {
+    const id = deleteModal.id;
     try {
       await api.deleteProject(id);
       setProjects(projects.filter(p => p._id !== id));
+      setDeleteModal({ open: false, id: null, name: '' });
     } catch (e) {
       alert('Termination protocol failed.');
     }
+  };
+
+  const handleDeleteTrigger = (id, name) => {
+    setDeleteModal({ open: true, id, name });
   };
 
   const filteredProjects = projects.filter(p => {
@@ -192,7 +201,7 @@ const AdminProjects = () => {
                                       <ArrowUpRight className="w-4 h-4" />
                                    </button>
                                    <button 
-                                     onClick={() => handleDelete(p._id)}
+                                     onClick={() => handleDeleteTrigger(p._id, p.title)}
                                      className="p-3 bg-rose-50 rounded-xl text-rose-400 hover:bg-rose-500 hover:text-white transition-all border-none outline-none cursor-pointer"
                                    >
                                       <Trash2 className="w-4 h-4" />
@@ -224,6 +233,14 @@ const AdminProjects = () => {
         project={newProject}
         setProject={setNewProject}
         onSubmit={handleCreateProject}
+      />
+
+      <TerminationModal 
+        isOpen={deleteModal.open}
+        onClose={() => setDeleteModal({ ...deleteModal, open: false })}
+        onConfirm={executeDelete}
+        itemName={deleteModal.name}
+        itemType="Venture"
       />
     </>
   );
