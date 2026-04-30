@@ -39,7 +39,13 @@ function App() {
           if (updatedUser && updatedUser.role !== user.role) {
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
-            window.dispatchEvent(new Event('userUpdated'));
+            
+            // MASTER REDIRECT: If role was upgraded to Admin, move to Command Center
+            if (updatedUser.role === 'admin') {
+              window.location.href = '/admin';
+            } else {
+              window.dispatchEvent(new Event('userUpdated'));
+            }
           }
         })
         .catch(err => console.error('Role sync failed:', err));
