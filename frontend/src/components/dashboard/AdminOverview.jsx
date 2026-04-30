@@ -131,12 +131,20 @@ const AdminOverview = () => {
                   <span className="text-4xl font-black text-slate-900">4.92</span>
                </div>
             </div>
-            <button 
-              onClick={() => navigate('/admin/users')}
-              className="w-full mt-10 py-5 rounded-[22px] bg-indigo-50 text-indigo-600 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
-            >
-               Open Talent Registry
-            </button>
+            <div className="flex gap-3 mt-10">
+               <button 
+                 onClick={() => navigate('/admin/users')}
+                 className="flex-1 py-5 rounded-[22px] bg-indigo-50 text-indigo-600 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+               >
+                  Registry
+               </button>
+               <button 
+                 onClick={() => navigate('/student-dashboard')}
+                 className="flex-1 py-5 rounded-[22px] bg-slate-900 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all shadow-xl"
+               >
+                  Portal View
+               </button>
+            </div>
          </motion.div>
 
          {/* Client Sector */}
@@ -168,12 +176,20 @@ const AdminOverview = () => {
                   <span className="text-4xl font-black text-slate-900">₹4.2M</span>
                </div>
             </div>
-            <button 
-              onClick={() => navigate('/admin/projects')}
-              className="w-full mt-10 py-5 rounded-[22px] bg-rose-50 text-rose-600 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-rose-600 hover:text-white transition-all shadow-sm"
-            >
-               Open Venture Registry
-            </button>
+            <div className="flex gap-3 mt-10">
+               <button 
+                 onClick={() => navigate('/admin/projects')}
+                 className="flex-1 py-5 rounded-[22px] bg-rose-50 text-rose-600 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-rose-600 hover:text-white transition-all shadow-sm"
+               >
+                  Registry
+               </button>
+               <button 
+                 onClick={() => navigate('/client-dashboard')}
+                 className="flex-1 py-5 rounded-[22px] bg-slate-900 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-rose-600 transition-all shadow-xl"
+               >
+                  Portal View
+               </button>
+            </div>
          </motion.div>
       </div>
 
