@@ -13,7 +13,7 @@ import useUserStore from '../../store/useUserStore';
 const Sidebar = ({ role: propRole }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isSidebarOpen, setSidebarOpen, user: userData, isSyncing } = useUserStore();
+  const { isSidebarOpen, setSidebarOpen, user: userData } = useUserStore();
   const path = location.pathname;
 
   // Use the actual role from the live user object if available, otherwise fallback to prop

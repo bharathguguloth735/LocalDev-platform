@@ -26,8 +26,23 @@ import ErrorBoundary from './components/layout/ErrorBoundary';
 import useUserStore from './store/useUserStore';
 
 function App() {
-  const { isAuthenticated, user } = useUserStore();
+  const { isAuthenticated, user, setUser } = useUserStore();
   const location = useLocation();
+
+  // Neural Role Sync: Ensure the frontend role always matches the database
+  useEffect(() => {
+    if (isAuthenticated && user?.id) {
+      api.getMe()
+        .then(updatedUser => {
+          if (updatedUser && updatedUser.role !== user.role) {
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            window.dispatchEvent(new Event('userUpdated'));
+          }
+        })
+        .catch(err => console.error('Role sync failed:', err));
+    }
+  }, [isAuthenticated, user?.id, user?.role, setUser]);
   
   return (
     <ErrorBoundary>
