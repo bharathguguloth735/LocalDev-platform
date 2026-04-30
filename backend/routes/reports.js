@@ -70,6 +70,15 @@ router.get('/platform-stats', verifyToken, async (req, res) => {
     const activeProjects = await Project.countDocuments({ status: 'active' });
     const totalProjects = await Project.countDocuments();
 
+    // Calculate Online Users (Active in last 15 minutes)
+    const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000);
+    const onlineSessions = await SessionLog.distinct('user', {
+      logoutTime: { $exists: false },
+      updatedAt: { $gte: fifteenMinsAgo }
+    });
+    const onlineUsers = onlineSessions.length;
+    const offlineUsers = Math.max(0, totalUsers - onlineUsers);
+
     res.status(200).json({
       success: true,
       data: {
@@ -78,6 +87,8 @@ router.get('/platform-stats', verifyToken, async (req, res) => {
         clients,
         activeProjects,
         totalProjects,
+        onlineUsers,
+        offlineUsers,
         timestamp: new Date()
       }
     });

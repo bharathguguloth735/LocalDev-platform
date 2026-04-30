@@ -25,7 +25,8 @@ import notificationRoutes from './routes/notifications.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import publicRoutes from './routes/public.js';
 import aiSmartRoutes from './routes/aiSmart.js';
-import { apiLimiter, authLimiter, aiLimiter, uploadLimiter } from './middleware/rateLimitMiddleware.js';
+import adminRoutes from './routes/admin.js';
+import { apiLimiter, authLimiter, uploadLimiter } from './middleware/rateLimitMiddleware.js';
 
 import connectDB from './config/db.js';
 import globalErrorHandler from './middleware/errorMiddleware.js';
@@ -63,6 +64,7 @@ app.use('/api/notifications', isTest ? notificationRoutes : [apiLimiter, notific
 app.use('/api/upload', isTest ? uploadRoutes : [uploadLimiter, uploadRoutes]);
 app.use('/api/public', publicRoutes);
 app.use('/api/ai-match', aiSmartRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {

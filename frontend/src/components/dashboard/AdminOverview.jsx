@@ -100,6 +100,46 @@ const AdminOverview = () => {
         </div>
       </div>
 
+      {/* ── REAL-TIME CONNECTIVITY ─────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+         <div className="bg-white border border-slate-100 p-6 rounded-[35px] shadow-sm flex items-center gap-5">
+            <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 border border-emerald-100 shadow-sm">
+               <Activity size={20} className="animate-pulse" />
+            </div>
+            <div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Login Protocols</p>
+               <h4 className="text-2xl font-black text-slate-900 tracking-tight">{stats?.onlineUsers || '0'} <span className="text-[10px] text-emerald-500 uppercase tracking-widest ml-1">Active</span></h4>
+            </div>
+         </div>
+         <div className="bg-white border border-slate-100 p-6 rounded-[35px] shadow-sm flex items-center gap-5">
+            <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 border border-slate-100 shadow-sm">
+               <LogOut size={20} />
+            </div>
+            <div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Logged Out</p>
+               <h4 className="text-2xl font-black text-slate-900 tracking-tight">{stats?.offlineUsers || '0'} <span className="text-[10px] text-slate-300 uppercase tracking-widest ml-1">Offline</span></h4>
+            </div>
+         </div>
+         <div className="bg-white border border-slate-100 p-6 rounded-[35px] shadow-sm flex items-center gap-5">
+            <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 border border-purple-100 shadow-sm">
+               <Users size={20} />
+            </div>
+            <div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Total Entities</p>
+               <h4 className="text-2xl font-black text-slate-900 tracking-tight">{stats?.totalUsers || '0'} <span className="text-[10px] text-purple-500 uppercase tracking-widest ml-1">Nodes</span></h4>
+            </div>
+         </div>
+         <div className="bg-white border border-slate-100 p-6 rounded-[35px] shadow-sm flex items-center gap-5">
+            <div className="w-12 h-12 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-600 border border-rose-100 shadow-sm">
+               <Briefcase size={20} />
+            </div>
+            <div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Total Ventures</p>
+               <h4 className="text-2xl font-black text-slate-900 tracking-tight">{stats?.totalProjects || '0'} <span className="text-[10px] text-rose-500 uppercase tracking-widest ml-1">Secured</span></h4>
+            </div>
+         </div>
+      </div>
+
       {/* ── SECTOR INTELLIGENCE ─────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
          {/* Student Sector */}
