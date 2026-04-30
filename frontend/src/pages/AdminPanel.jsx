@@ -3,6 +3,7 @@ import Sidebar from '../components/dashboard/Sidebar';
 import AdminOverview from '../components/dashboard/AdminOverview';
 import AdminUsers from '../components/dashboard/AdminUsers';
 import AdminProjects from '../components/dashboard/AdminProjects';
+import AdminSettings from '../components/dashboard/AdminSettings';
 
 const AdminPanel = () => {
   return (
@@ -13,6 +14,7 @@ const AdminPanel = () => {
           <Route path="/" element={<AdminOverview />} />
           <Route path="/users" element={<AdminUsers />} />
           <Route path="/projects" element={<AdminProjects />} />
+          <Route path="/settings" element={<AdminSettings />} />
           <Route path="*" element={<Navigate to="/admin" replace />} />
         </Routes>
       </main>
