@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Bell, X, Check, Clock, Shield, Star, Rocket, Send, ArrowLeft, ArrowRight, IndianRupee, Terminal, Activity, MessageCircle, Cpu, Target } from 'lucide-react';
+import { Bell, X, Check, Clock, Shield, Star, Rocket, Send, ArrowLeft, ArrowRight, IndianRupee, Terminal, Activity, MessageCircle, Cpu, Target, Briefcase } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../api.js';
@@ -60,13 +60,13 @@ const NotificationCenter = () => {
     };
   }, [userId]);
 
-  const fetchNotifications = async () => {
+  async function fetchNotifications() {
     try {
       const data = await api.getNotifications();
       setNotifications(data);
       setUnreadCount(data.filter(n => !n.isRead).length);
     } catch (err) { console.error(err); }
-  };
+  }
 
   const handleNotifyClick = async (notif) => {
     // 1. Mark as Read

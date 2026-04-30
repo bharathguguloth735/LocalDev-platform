@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Sparkles, CheckCircle, Clock, ExternalLink, Github, 
   Send, AlertCircle, Loader2, MessageSquare, ShieldCheck,
-  ChevronRight, Filter, Search, Briefcase, FileText, ImagePlus, FileCode, Paperclip, X
+  ChevronRight, Filter, Search, Briefcase, FileText, ImagePlus, FileCode, Paperclip, X, Star
 } from 'lucide-react';
 import { api } from '../../api';
 

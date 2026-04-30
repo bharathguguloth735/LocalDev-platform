@@ -509,6 +509,40 @@ export const api = {
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   },
+  
+  // ── Admin Payments ─────────────────────────────────────────────────────────
+  getAllPayments: async () => {
+    const res = await fetch(`${API_URL}/payments/admin/all`, { headers: getHeaders() });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  releasePayment: async (projectId) => {
+    const res = await fetch(`${API_URL}/payments/admin/release/${projectId}`, { 
+      method: 'POST',
+      headers: getHeaders() 
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  markPaymentFailed: async (projectId) => {
+    const res = await fetch(`${API_URL}/payments/admin/fail/${projectId}`, { 
+      method: 'POST',
+      headers: getHeaders() 
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
+
+  requestRepayment: async (projectId) => {
+    const res = await fetch(`${API_URL}/payments/admin/repayment-request/${projectId}`, { 
+      method: 'POST',
+      headers: getHeaders() 
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  },
 
   checkHealth: async () => {
     try {
