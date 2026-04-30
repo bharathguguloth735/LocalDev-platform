@@ -36,7 +36,11 @@ function App() {
     if (isAuthenticated && user?.id) {
       api.getMe()
         .then(updatedUser => {
-          if (updatedUser && updatedUser.role !== user.role) {
+          const localUserStr = localStorage.getItem('user');
+          let localUserRole = null;
+          try { localUserRole = JSON.parse(localUserStr)?.role; } catch (e) {}
+
+          if (updatedUser && (updatedUser.role !== user.role || updatedUser.role !== localUserRole)) {
             setUser(updatedUser);
             localStorage.setItem('user', JSON.stringify(updatedUser));
             
