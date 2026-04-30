@@ -26,7 +26,7 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import publicRoutes from './routes/public.js';
 import aiSmartRoutes from './routes/aiSmart.js';
 import adminRoutes from './routes/admin.js';
-import { apiLimiter, authLimiter, uploadLimiter } from './middleware/rateLimitMiddleware.js';
+import { apiLimiter, authLimiter, uploadLimiter, aiLimiter } from './middleware/rateLimitMiddleware.js';
 
 import connectDB from './config/db.js';
 import globalErrorHandler from './middleware/errorMiddleware.js';
